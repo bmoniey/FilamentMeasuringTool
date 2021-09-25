@@ -17,7 +17,7 @@ Measure 1.75mm 3D printing Filament.
 
 ## ECAD
 
-![ECAD](https://github.com/bmoniey/ESP32GarageDoorOpener/blob/main/ecad/ESP32GarageDoorOpener/ESP32GarageDoorOpener.svg?raw=true)
+![ECAD](https://github.com/bmoniey/FilamentMeasuringTool/blob/main/design/ecad/fmt.svg)
 
 ## Library Dependencies
 
