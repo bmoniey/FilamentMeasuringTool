@@ -29,12 +29,13 @@ Copy these libraries to your Arduino Libraries folder
 
 ## Links
 
-* FMT on Grab CAD (step,stl there):
+* FMT on Grab CAD (step,stl there):https://grabcad.com/library/filament-measuring-tool-1
 * Pylen:https://github.com/bmoniey/pylen
 * Filament Welding tool:https://grabcad.com/library/3dprint-filament-welder-1
 * bmoniey's Website:https://gear-blocks.com
 
 ## Bill of Material
+
 - 1 Arduino Nano
 - 1 AS5600 kit (pcb,magnet horizontal,5mmx2mm)
 - 4 M5 x 20 Socket Head Cap Screw
@@ -49,5 +50,6 @@ Copy these libraries to your Arduino Libraries folder
 - 1 housing_front, 3d printed
 
 ##Version
-1.0.0 Failed attempt using an analog rotary encoder
-2.0.0 Initial Release of FMT20
+
+- 1.0.0 Failed attempt using an analog rotary encoder
+- 2.0.0 Initial Release of FMT20
