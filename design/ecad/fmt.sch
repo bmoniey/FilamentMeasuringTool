@@ -1,0 +1,243 @@
+EESchema Schematic File Version 4
+EELAYER 26 0
+EELAYER END
+$Descr A 11000 8500
+encoding utf-8
+Sheet 1 1
+Title "FMT20"
+Date "2021-09-25"
+Rev "2.0.0"
+Comp "Gear-Blocks.com"
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MCU_Module:Arduino_Nano_v3.x A1
+U 1 1 5BFB5548
+P 3350 3800
+F 0 "A1" H 3350 2714 50  0000 C CNN
+F 1 "Arduino_Nano_v3.x" H 3350 5350 50  0000 C CNN
+F 2 "Module:Arduino_Nano" H 3500 2850 50  0001 L CNN
+F 3 "http://www.mouser.com/pdfdocs/Gravitech_Arduino_Nano3_0.pdf" H 3350 2800 50  0001 C CNN
+	1    3350 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0110
+U 1 1 5BFBF2E0
+P 3350 5100
+F 0 "#PWR0110" H 3350 4850 50  0001 C CNN
+F 1 "GND" H 3355 4927 50  0000 C CNN
+F 2 "" H 3350 5100 50  0001 C CNN
+F 3 "" H 3350 5100 50  0001 C CNN
+	1    3350 5100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3350 4800 3350 4950
+Wire Wire Line
+	3450 4800 3450 4950
+Wire Wire Line
+	3450 4950 3350 4950
+Connection ~ 3350 4950
+Wire Wire Line
+	3350 4950 3350 5100
+$Comp
+L power:+5V #PWR0111
+U 1 1 5BFC0292
+P 3550 2600
+F 0 "#PWR0111" H 3550 2450 50  0001 C CNN
+F 1 "+5V" H 3565 2773 50  0000 C CNN
+F 2 "" H 3550 2600 50  0001 C CNN
+F 3 "" H 3550 2600 50  0001 C CNN
+	1    3550 2600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3550 2600 3550 2750
+Text GLabel 3850 4200 2    50   Input ~ 0
+SDA
+Text GLabel 3850 4300 2    50   Input ~ 0
+SCL
+Text GLabel 2450 3600 0    50   Input ~ 0
+SW_UNIT
+$Comp
+L pspice:CAP C8
+U 1 1 5C2E127B
+P 4200 3000
+F 0 "C8" H 4022 2954 50  0000 R CNN
+F 1 "10uF" H 4022 3045 50  0000 R CNN
+F 2 "" H 4200 3000 50  0001 C CNN
+F 3 "" H 4200 3000 50  0001 C CNN
+	1    4200 3000
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0124
+U 1 1 5C2E136F
+P 4200 3250
+F 0 "#PWR0124" H 4200 3000 50  0001 C CNN
+F 1 "GND" H 4205 3077 50  0000 C CNN
+F 2 "" H 4200 3250 50  0001 C CNN
+F 3 "" H 4200 3250 50  0001 C CNN
+	1    4200 3250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 2750 3550 2750
+Connection ~ 3550 2750
+Wire Wire Line
+	3550 2750 3550 2800
+$Comp
+L moran:oled_128x64 U?
+U 1 1 615092FC
+P 7100 4300
+F 0 "U?" H 7100 4850 50  0000 L CNN
+F 1 "oled_128x64" H 6900 4650 50  0000 L CNN
+F 2 "" H 7250 4050 50  0001 C CNN
+F 3 "" H 7250 4050 50  0001 C CNN
+	1    7100 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6700 4150 5650 4150
+Wire Wire Line
+	5650 4150 5650 4900
+$Comp
+L power:GND #PWR?
+U 1 1 61509454
+P 5650 4900
+F 0 "#PWR?" H 5650 4650 50  0001 C CNN
+F 1 "GND" H 5655 4727 50  0000 C CNN
+F 2 "" H 5650 4900 50  0001 C CNN
+F 3 "" H 5650 4900 50  0001 C CNN
+	1    5650 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 61509465
+P 5900 4900
+F 0 "#PWR?" H 5900 4750 50  0001 C CNN
+F 1 "+5V" H 5915 5073 50  0000 C CNN
+F 2 "" H 5900 4900 50  0001 C CNN
+F 3 "" H 5900 4900 50  0001 C CNN
+	1    5900 4900
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6700 4250 5900 4250
+Wire Wire Line
+	5900 4250 5900 4900
+Text GLabel 6450 4350 0    50   Input ~ 0
+SCL
+Wire Wire Line
+	6700 4450 6450 4450
+Text GLabel 6450 4450 0    50   Input ~ 0
+SDA
+Wire Wire Line
+	6450 4350 6700 4350
+$Comp
+L moran:AS5600 U?
+U 1 1 61509B69
+P 7150 2850
+F 0 "U?" H 7125 3715 50  0000 C CNN
+F 1 "AS5600" H 7125 3624 50  0000 C CNN
+F 2 "" H 5950 3750 50  0001 C CNN
+F 3 "" H 5950 3750 50  0001 C CNN
+	1    7150 2850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5650 3000 5650 4150
+Connection ~ 5650 4150
+Wire Wire Line
+	5650 3000 6350 3000
+Wire Wire Line
+	6350 2700 5900 2700
+Wire Wire Line
+	5900 2700 5900 4250
+Connection ~ 5900 4250
+Text GLabel 8250 2800 2    50   Input ~ 0
+SCL
+Wire Wire Line
+	8250 2800 7900 2800
+Text GLabel 8250 2900 2    50   Input ~ 0
+SDA
+Wire Wire Line
+	8250 2900 7900 2900
+Text GLabel 2500 3800 0    50   Input ~ 0
+SW_RESET
+Wire Wire Line
+	2450 3600 2850 3600
+Wire Wire Line
+	2500 3800 2850 3800
+Text GLabel 2500 3900 0    50   Input ~ 0
+DEBUG
+Wire Wire Line
+	2500 3900 2850 3900
+$Comp
+L Switch:SW_Push SW?
+U 1 1 6150AAA3
+P 6950 5500
+F 0 "SW?" H 6950 5785 50  0000 C CNN
+F 1 "SW_UNIT" H 6950 5694 50  0000 C CNN
+F 2 "" H 6950 5700 50  0001 C CNN
+F 3 "" H 6950 5700 50  0001 C CNN
+	1    6950 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6150ABA7
+P 7800 5600
+F 0 "#PWR?" H 7800 5350 50  0001 C CNN
+F 1 "GND" H 7805 5427 50  0000 C CNN
+F 2 "" H 7800 5600 50  0001 C CNN
+F 3 "" H 7800 5600 50  0001 C CNN
+	1    7800 5600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7150 5500 7800 5500
+Wire Wire Line
+	7800 5500 7800 5600
+Text GLabel 6300 5500 0    50   Input ~ 0
+SW_UNIT
+Wire Wire Line
+	6750 5500 6300 5500
+$Comp
+L Switch:SW_Push SW?
+U 1 1 6150B6AA
+P 6950 6000
+F 0 "SW?" H 6950 6285 50  0000 C CNN
+F 1 "SW_RESET" H 6950 6194 50  0000 C CNN
+F 2 "" H 6950 6200 50  0001 C CNN
+F 3 "" H 6950 6200 50  0001 C CNN
+	1    6950 6000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6150B6B1
+P 7800 6100
+F 0 "#PWR?" H 7800 5850 50  0001 C CNN
+F 1 "GND" H 7805 5927 50  0000 C CNN
+F 2 "" H 7800 6100 50  0001 C CNN
+F 3 "" H 7800 6100 50  0001 C CNN
+	1    7800 6100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7150 6000 7800 6000
+Wire Wire Line
+	7800 6000 7800 6100
+Text GLabel 6300 6000 0    50   Input ~ 0
+SW_RESET
+Wire Wire Line
+	6750 6000 6300 6000
+Text Notes 5550 6400 0    50   ~ 0
+Note: This is the reset to zero button. It does not reset the micro-controller
+$EndSCHEMATC
