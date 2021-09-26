@@ -53,17 +53,19 @@ Copy these libraries to your Arduino Libraries folder
 
 ## Usage
 
-- Power
-	Use a USB C to Mini cable for power. Any USB C wall adapter or USB C port should work.
+### Power
+
+Use a USB C to Mini cable for power. Any USB C wall adapter or USB C port should work.
 	
-Normal Mode (out of reset)
+### Normal Mode (out of reset)
+
 Will display units and the length with appropriate precion.
 
 - Reset Button: Press to zero length readout.
 - Units Button: Press to change between mm and inch
 - Hold down both: Jumps to calibration mode
 
-Calibration Mode:
+### Calibration Mode:
 
 Expects to record raw counts for 1000mm of filament. The display will show the raw position in counts.
 
@@ -76,11 +78,15 @@ Steps:
 - Reset Button: Press to zero length.  
 - Units Button: Stores the calibration and returns to Normal Mode
 
-##Version
+## Version
 
-- 1.0.0 Failed attempt using an analog rotary encoder
-- 2.0.0 Initial Release of FMT20
-- 2.1.0 
--- stores and read calibration from eeprom
--- added calibration mode
--- added updates to push-buttons to handle calibration mode
+### 1.0.0
+-Failed attempt using an analog rotary encoder
+
+### 2.0.0
+-Initial Release of FMT20
+
+### 2.1.0 
+- stores and read calibration from eeprom
+- added calibration mode
+- added updates to push-buttons to handle calibration mode
