@@ -8,12 +8,7 @@ Measure 1.75mm 3D printing Filament.
 
 * Accuracy: 1mm over 1M
 * Cost: <$20
-* Easy to use.
-
-## FMT20
-
-* Arduino Nano
-* AS5600 rotary position encoder 
+* Easy to use. 
 
 ## ECAD
 
@@ -37,7 +32,7 @@ Copy these libraries to your Arduino Libraries folder
 ## Bill of Material
 
 - 1 Arduino Nano
-- 1 AS5600 kit (PCB,magnet horizontal,5mmx2mm)
+- 1 AS5600 kit (PCB,magnet horizontal,5mmx2mm Amazon ASIN:B094F8H591)
 - 4 M5 x 20 Socket Head Cap Screw
 - 4 Stand-off M3x10
 - 4 Stand-off M2x5
@@ -81,12 +76,12 @@ Steps:
 ## Version
 
 ### 1.0.0
--Failed attempt using an analog rotary encoder
+- Failed attempt using an analog rotary encoder
 
 ### 2.0.0
--Initial Release of FMT20
+- Initial Release of FMT20
 
 ### 2.1.0 
-- stores and read calibration from eeprom
+- store and read calibration from eeprom
 - added calibration mode
 - added updates to push-buttons to handle calibration mode
