@@ -31,12 +31,13 @@ Copy these libraries to your Arduino Libraries folder
 
 ## Bill of Material
 
-- 1 Arduino Nano
+- 1 Arduino Nano (ASIN B0713XK923)
 - 1 AS5600 kit (PCB,magnet horizontal,5mmx2mm Amazon ASIN:B094F8H591)
+- 1 OLED,128x64,I2C Display (ASIN B076PNP2VD)
 - 4 M5 x 20 Socket Head Cap Screw
 - 4 Stand-off M3x10
 - 4 Stand-off M2x5
-- 1 PCB 50x70
+- 1 PCB 50x70 (ASIN B081Q5JZ43)
 - 2 header,male, horizontal,2.54mm 
 - 2 Push-button, momentary
 - x Dupont wire jumpers 20cm
@@ -54,21 +55,21 @@ Use a USB C to Mini cable for power. Any USB C wall adapter or USB C port should
 	
 ### Normal Mode (out of reset)
 
-Will display units and the length with appropriate precion.
+Will display units and the length with appropriate precision.
 
 - Reset Button: Press to zero length readout.
 - Units Button: Press to change between mm and inch
-- Hold down both: Jumps to calibration mode
+- Press reset and then press and hold units to enter calibration mode
 
 ### Calibration Mode:
 
 Expects to record raw counts for 1000mm of filament. The display will show the raw position in counts.
 
 Steps:
-1. Zero the position at your measurement starting point
-2. Draw out exactly 1000mm/39.37in of filament (using a tape measure or other reference)
-3. Press the units button (value must be non-zero. Negative values OK too!)
-4. The value will automatically be stored and the mode should return to Normal Mode
+1. Zero the position at your measurement starting point with reset button
+2. Draw out exactly 1000mm or 39.37in of filament (using a tape measure or other reference)
+3. Press the units button (value must be non-zero. Negative values OK too!) to save new calibration
+4. Press reset and then press and hold units to re-enter normal mode
 
 - Reset Button: Press to zero length.  
 - Units Button: Stores the calibration and returns to Normal Mode
@@ -85,3 +86,9 @@ Steps:
 - store and read calibration from eeprom
 - added calibration mode
 - added updates to push-buttons to handle calibration mode
+
+### 2.1.1
+- removed unused variables and comments
+- created defines for magic numbers
+- improved handling of button presses
+- improved entry and return from calibration mode
