@@ -1,22 +1,27 @@
 /*
- 
  FMT2.0
  F.ilament M.easuring T.ool 2.0
+ 
  Goals:
  Measure filament to nearest 1.0mm
- Use AS5600 encoder with 12bit,1024, resolution
+ Use AS5600 encoder with 12bit,4096, resolution
  Read a button to reset the length counters to zero
  Read a button to change the units from mm,inche,meter,and feet
  Display data on an 128x64 OLED display
  -Length
  -Unit of measure
 
+Calibration mode:
+
+From zero position draw out exactly 1000mm of filament. Calculate and store
+the calibration constant on the eeprom of the Arduino.
+
 Notes:
 This version is totally new version of hardware.
 The filament is pulled through.The filamanet is pinched between a large 100mm wheel and
 a 22x7x8mm bearing. It used an AS5600 magnetic encoder to read position.
 
-calibration data with 100mm wheel
+Calibration data with 100mm wheel
 1000mm/raw counts
 13398
 13416
@@ -30,14 +35,15 @@ calibration data with 100mm wheel
 
  Written by Brian Moran 9/12/2021
  */
+ 
 #include "Arduino.h" 
 #include <SPI.h>
 #include <Wire.h>
 #include <AS5600.h>
 #include <EEPROM.h>
+#include <Adafruit_GFX.h>
+#include "Adafruit_SSD1306_D.h"
 
-//#include <FixedPoints.h>
-//#include <FixedPointsCommon.h>
 #ifdef ARDUINO_SAMD_VARIANT_COMPLIANCE
   #define SERIAL SerialUSB
   #define SYS_VOL   3.3
@@ -45,17 +51,14 @@ calibration data with 100mm wheel
   #define SERIAL Serial
   #define SYS_VOL   5
 #endif
-#include <Adafruit_GFX.h>
-//#include <Adafruit_SSD1306.h>
-#include "Adafruit_SSD1306_D.h"
 
-#define VERSION "FMT 2.1.0"
+#define VERSION "FMT 2.1.1"
 
 #define  SW1_RESET_PIN 5
 #define  SW2_UNITS_PIN 6
 #define  DEBUG_PIN 7
 #define  REVOLUTION 4095
-#define  WRAP_ZONE 128
+#define  WRAP_ZONE 512
 #define  DISPLAY display_d
 #define  EEMAGIC 0x80010674
 #define  EEWRITE 0x01
@@ -64,21 +67,24 @@ calibration data with 100mm wheel
 #define  HARDCAL_IN  (float)(0.07447433532*999.0/989.0/25.4)
 #define  CAL_MODE    0x1
 #define  NORMAL_MODE 0x0
+#define  CSTR_BUFFER_LEN 32 //don't make this too large. The display need 1024bytes of ram!
+#define  DISPLAY_UPDATE_PERIOD 200
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin) was 4
-//Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 Adafruit_SSD1306_D display(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 AMS_5600 ams5600;
 
-char cstr[64];
-uint8_t swrst;
-uint8_t swunt;
-uint8_t ledstate;
+char cstr[CSTR_BUFFER_LEN];
+uint8_t swrst[2] = {0,0};
+uint8_t swunt[2] = {0,0};
+uint8_t swmode[2] = {0,0};
+uint32_t swtimer  = 0;
+
 uint8_t encoder_state = 0;
 uint8_t encoder_onEntry = 1;
 uint8_t encoder_counter = 0;
@@ -125,9 +131,6 @@ void eestore_rw(uint8_t * buff, size_t len,uint8_t rw){
 
 void setup() {
   char sval[16];
-  swrst = 0;
-  swunt = 0;
-  ledstate = 0;
 
   pinMode(SW1_RESET_PIN, INPUT_PULLUP);
   pinMode(SW2_UNITS_PIN, INPUT_PULLUP);
@@ -145,7 +148,7 @@ void setup() {
   }else{
     SERIAL.println(F("initializing eestore!"));
     eestore.es.magic = EEMAGIC;
-    eestore.es.cal = HARDCAL_MM;
+    eestore.es.cal   = HARDCAL_MM;
     eestore_rw(eestore.b,sizeof(eestore),EEWRITE);
     dtostrf(eestore.es.cal, 6, 6, sval);
     sprintf(cstr,"%6s",sval);
@@ -188,7 +191,7 @@ void setup() {
 
   Wire.begin();
   
-  SERIAL.println(F(">>>>>>>>>>>>>>>>>>>>>>>>>>> "));
+  SERIAL.println(F(">>>>>>>>>>>"));
   
   if(ams5600.detectMagnet() == 0 ){
     while(1){
@@ -209,62 +212,64 @@ void loop()
 {
   // Here we go.
   doEncoder();
-//  do_swrst();
-//  do_swunt();
   do_switches();
   
   if(millis() > timer){
-    
     updateDisplay();
-    
-    timer = millis() + 200;
-    sprintf(cstr,"%d",angle_abs);
-    Serial.println(cstr);
+    timer = millis() + DISPLAY_UPDATE_PERIOD;
+    Serial.println(angle_abs);
   }
 }
 
 void do_switches(void){
-  swrst = digitalRead(SW1_RESET_PIN) == LOW ? (swrst++ > 254 ? 254 : swrst) : 0;
-  swunt = digitalRead(SW2_UNITS_PIN) == LOW ? (swunt++ > 254 ? 254 : swunt) : 0;
+  swrst[1]=swrst[0];
+  swrst[0]=digitalRead(SW1_RESET_PIN) == LOW;
+  
+  swunt[1]=swunt[0];
+  swunt[0]=digitalRead(SW2_UNITS_PIN) == LOW;
+  
+  swmode[1] = swmode[0];
+  swmode[0] = (digitalRead(SW1_RESET_PIN) == LOW) && (digitalRead(SW2_UNITS_PIN) == LOW); 
+
+  //don't take anoter press
+  if(swtimer > millis()){
+    return;
+  }
 
   if(mode == NORMAL_MODE){
-    if(swrst > 50 && swunt == 0){
-      //reset the length calculation here
-      SERIAL.println(F("Reset Length"));
-      angle_abs=0;
-      swrst = 0;
-      swunt = 0;
-    }else if(swrst == 0 && swunt > 50 ){
-      //change the units heres
-      SERIAL.println(F("change Unit"));
-      unit = unit == mm ? inch : mm;
-      swrst = 0;
-      swunt = 0;
-    }else if(swrst > 250 && swunt > 250){
+     if(swmode[0] && !swmode[1] && swrst[0]){
       //toggle the mode
+      //press the reset and then the unit at the same time
       mode =  CAL_MODE;
-      swrst = 0;
-      swunt = 0;
-    }
+      SERIAL.println(F("Go Cal"));
+      swtimer = millis() + 200;
+    }else if(swrst[0] && !swrst[1]){
+      //reset the length calculation here
+      SERIAL.println(F("Zero Length"));
+      angle_abs=0;
+      swtimer = millis() + 200;
+    }else if(swunt[0] && !swunt[1]){
+      //change the units heres
+      SERIAL.println(F("Change Unit"));
+      unit = unit == mm ? inch : mm;
+      swtimer = millis() + 200;
+    } 
   }else{
     //calibration mode
-    if(swrst > 50 && swunt == 0){
+    if(swmode[0] && !swmode[1] && swrst[0]){
+      //return to normal mode - no store
+      SERIAL.println(F("Go Normal"));
+      mode = NORMAL_MODE;
+      swtimer = millis() + 200;
+    }else if(swrst[0] && !swrst[1]){
       //reset the length calculation here
       SERIAL.println(F("Reset Length"));
       angle_abs=0;
-      swrst = 0;
-      swunt = 0;
-    }else if(swrst > 50 && swunt == 0){
-      //reset the length calculation here
-      SERIAL.println(F("Return to normal mode"));
-      mode = NORMAL_MODE;
-      swrst = 0;
-      swunt = 0;
+      swtimer = millis() + 200;
     }
-    else if(swrst == 0 && swunt > 100 ){
-       swrst = 0;
-       swunt = 0;
-      //change the units heres
+    else if(swunt[0] && !swunt[1]){
+      //change the units here
+      swtimer = millis() + 200;
       if(angle_abs > 0){
           SERIAL.println(F("save calibration pos"));
           eestore.es.cal = 1000.0 / angle_abs;
@@ -277,54 +282,22 @@ void do_switches(void){
           eestore_rw(eestore.b,sizeof(eestore),EEWRITE);
           cal_mm = eestore.es.cal;
           cal_in = cal_mm / 25.4;
-          mode = NORMAL_MODE;
     }
   }
 }
-
-//void do_swrst(void)
-//{
-//  swrst[1] = swrst[0];
-//  swrst[0] = digitalRead(SW1_RESET_PIN);
-//  if(swrst[0] == 0 && swrst[1] == 1){
-//    //reset the length calculation here
-//    SERIAL.println(F("Reset Length"));
-//    angle_abs=0;
-//  }
-//}
-//
-//void do_swunt(void)
-//{
-//  swunt[1] = swunt[0];
-//  swunt[0] = digitalRead(SW2_UNITS_PIN);
-//  if(swunt[0] == 0 && swunt[1] == 1){
-//    //change the units heres
-//    SERIAL.println(F("change Unit"));
-//    unit = unit == mm ? inch : mm;
-//  }
-//}
 
 void doEncoder(){
   digitalWrite(DEBUG_PIN, HIGH);
    angle[1] = angle[0];
    angle[0] = ams5600.getRawAngle();
-   
-   //if(angle[0] < 128 && angle[1]> (4095-128)){
-   // angle_delta = angle[0] - angle[1] + 4095;
-   //}else if(angle[0]>(4095-128) && angle[1] < 128){
-   // angle_delta = (angle[0] - angle[1] - 4095); 
-   //}else{
-   // angle_delta = angle[0]-angle[1];
-   //}
 
    angle_delta = angle[0]-angle[1];
-   if(angle_delta >= 4095-512 || angle_delta <= -4095 + 512){
+   if(angle_delta >= REVOLUTION - WRAP_ZONE || angle_delta <= -REVOLUTION + WRAP_ZONE){
     if(angle[0] >=0 && angle[0] <= 512){
-      angle_delta = angle[0] + 4095 - angle[1];
+      angle_delta = angle[0] + REVOLUTION - angle[1];
     }else{
-      angle_delta = angle[0] - 4095 - angle[1];
+      angle_delta = angle[0] - REVOLUTION - angle[1];
     }
-    //Serial.println(F("wrap"));
    }
    
    switch(encoder_state){
@@ -371,7 +344,7 @@ void updateDisplayNormal(void){
     
   display.setTextSize(2);             // Normal 1:1 pixel scale
   display.setTextColor(WHITE);        // Draw white text
-  display.setCursor(2,2);                                                                                                     // Start at top-left corner
+  display.setCursor(2,2);            // Start at top-left corner
   sprintf(cstr,"Unit:%s",unit == mm ? "mm":"in");
   display.println(cstr);
   
@@ -405,7 +378,7 @@ void updateDisplayCal(void){
   display.drawLine(0,18,display.width()-1,18,SSD1306_WHITE);
     
   display.setTextSize(2);             // Normal 1:1 pixel scale
-  display.setCursor(2,2);
+  display.setCursor(2,2);             // Start at top-left corner
   display.setTextColor(WHITE);        // Draw white text
   display.println(F("Cal:1000mm"));
   
