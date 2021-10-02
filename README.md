@@ -50,6 +50,7 @@ Copy these libraries to your Arduino Libraries folder for the main or protected 
 - 1 AS5600 kit (PCB,magnet horizontal,5mmx2mm Amazon ASIN:B094F8H591)
 - 1 OLED,128x64,I2C Display (ASIN B076PNP2VD)
 - 4 M5 x 20 Socket Head Cap Screw
+- 3 Ball Bearing,6-8,ABEC-9, 8x22x7 
 - 4 Stand-off M3x10
 - 4 Stand-off M2x5
 - 1 PCB 50x70 (ASIN B081Q5JZ43)
