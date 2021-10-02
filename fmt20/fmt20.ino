@@ -36,6 +36,10 @@ Calibration data with 100mm wheel
  Written by Brian Moran 9/12/2021
  */
  
+ /*********************/
+ /* Branch: Protected */ 
+ /*********************/
+ 
 #include "Arduino.h" 
 #include <SPI.h>
 #include <Wire.h>
@@ -52,7 +56,8 @@ Calibration data with 100mm wheel
   #define SYS_VOL   5
 #endif
 
-#define VERSION "FMT 2.1.1"
+#define VERSION "FMT 2.18.1"
+#define NOTE_STRING "PROTECTED"
 
 #define  SW1_RESET_PIN 5
 #define  SW2_UNITS_PIN 6
@@ -182,10 +187,12 @@ void setup() {
   display.clearDisplay();
   display.setTextSize(2);             // Normal 1:1 pixel scale
   display.setTextColor(WHITE);        // Draw white text
-  display.setCursor(0,0);            // Start at top-left corner
+  display.setCursor(2,2);            // Start at top-left corner
   display.println(F(VERSION));
+  display.setCursor(2,24);            // Start at top-left corner
+  display.println(F(NOTE_STRING));   //display a note on stareup
   display.display();
-  delay(1000);
+  delay(2000);
 
   digitalWrite(DEBUG_PIN, LOW);
 
