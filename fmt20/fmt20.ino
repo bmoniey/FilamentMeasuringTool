@@ -19,7 +19,7 @@ the calibration constant on the eeprom of the Arduino.
 Notes:
 This version is totally new version of hardware.
 The filament is pulled through.The filamanet is pinched between a large 100mm wheel and
-a 22x7x8mm bearing. It used an AS5600 magnetic encoder to read position.
+a 22x7x8mm bearing. It uses an AS5600 magnetic encoder to read position.
 
 Calibration data with 100mm wheel
 1000mm/raw counts
