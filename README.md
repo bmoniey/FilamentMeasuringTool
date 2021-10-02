@@ -14,11 +14,26 @@ Measure 1.75mm 3D printing Filament.
 
 ![ECAD](https://github.com/bmoniey/FilamentMeasuringTool/blob/main/design/ecad/fmt.svg)
 
+## Branches
+
+Currently there are two branches, main and protected.
+
+* main: goes along with main Adrafruit_SSD1306 library.
+* protected: goes along with custom fork of Adafruit_SSD1306 Library. See details below.
+
 ## Library Dependencies
 
-Copy these libraries to your Arduino Libraries folder
+Copy these libraries to your Arduino Libraries folder for the main or protected branch.
+
+### Branch: main
 
 * https://github.com/adafruit/Adafruit_SSD1306.git
+* https://github.com/adafruit/Adafruit-GFX-Library.git
+* https://github.com/Seeed-Studio/Seeed_Arduino_AS5600.git
+
+### Branch: protected
+
+* https://github.com/bmoniey/Adafruit_SSD1306/tree/protected
 * https://github.com/adafruit/Adafruit-GFX-Library.git
 * https://github.com/Seeed-Studio/Seeed_Arduino_AS5600.git
 

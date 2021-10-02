@@ -42,7 +42,7 @@ Calibration data with 100mm wheel
 #include <AS5600.h>
 #include <EEPROM.h>
 #include <Adafruit_GFX.h>
-#include "Adafruit_SSD1306_D.h"
+#include "Adafruit_SSD1306.h"
 
 #ifdef ARDUINO_SAMD_VARIANT_COMPLIANCE
   #define SERIAL SerialUSB
@@ -75,7 +75,7 @@ Calibration data with 100mm wheel
 
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin) was 4
-Adafruit_SSD1306_D display(SCREEN_WIDTH, SCREEN_HEIGHT);
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 AMS_5600 ams5600;
 
@@ -177,14 +177,14 @@ void setup() {
   
   // Show initial display buffer contents on the screen --
   // the library initializes this with an Adafruit splash screen.
-  display.DISPLAY();
+  display.display();
 
   display.clearDisplay();
   display.setTextSize(2);             // Normal 1:1 pixel scale
   display.setTextColor(WHITE);        // Draw white text
   display.setCursor(0,0);            // Start at top-left corner
   display.println(F(VERSION));
-  display.DISPLAY();
+  display.display();
   delay(1000);
 
   digitalWrite(DEBUG_PIN, LOW);
