@@ -14,7 +14,7 @@ Measure 1.75mm 3D printing Filament.
 
 ![ECAD](https://github.com/bmoniey/FilamentMeasuringTool/blob/main/design/ecad/fmt.svg)
 
-## Branches
+## Branches [protected]
 
 Currently there are two branches, main and protected.
 
