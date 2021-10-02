@@ -6,7 +6,7 @@
  Measure filament to nearest 1.0mm
  Use AS5600 encoder with 12bit,4096, resolution
  Read a button to reset the length counters to zero
- Read a button to change the units from mm,inche,meter,and feet
+ Read a button to change the units from mm,inch
  Display data on an 128x64 OLED display
  -Length
  -Unit of measure
