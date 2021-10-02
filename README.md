@@ -90,6 +90,9 @@ Steps:
 - Reset Button: Press to zero length.  
 - Units Button: Stores the calibration and returns to Normal Mode
 
+### Notes:
+1. Using while Cura is open is not recommended. The software tries to access the serial port of the arduino and funny things can start to happen. Simple close Cura when using the device.
+
 ## Version
 
 ### 1.0.0
