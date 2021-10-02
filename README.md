@@ -108,3 +108,9 @@ Steps:
 - created defines for magic numbers
 - improved handling of button presses
 - improved entry and return from calibration mode
+
+### 2.18.1
+- revision now in format major.git-revision.build numbers
+- added note to display to help with tracking branches
+- start-up delay from 1s to 2s to give user a change to read it!
+- added comments in the fmt.ino file to indicate what branch the project goes with
