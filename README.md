@@ -114,3 +114,7 @@ Steps:
 - added note to display to help with tracking branches
 - start-up delay from 1s to 2s to give user a change to read it!
 - added comments in the fmt.ino file to indicate what branch the project goes with
+
+### 2.23.1
+- working with Adafruit on change from private to protected
+- added back in teh Adafruit_SSD1306_D.cpp,h files which implement the display(dfunct_t dfunct) method which is less complicated and will be able to benefit from any other modifications made to the base library. Hopefully the protected will become mainline which will allow this fork to die and no special library checkout will be needed.
