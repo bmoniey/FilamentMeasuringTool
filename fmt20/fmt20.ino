@@ -46,7 +46,7 @@ Calibration data with 100mm wheel
 #include <AS5600.h>
 #include <EEPROM.h>
 #include <Adafruit_GFX.h>
-#include "Adafruit_SSD1306.h"
+#include "Adafruit_SSD1306_D.h"
 
 #ifdef ARDUINO_SAMD_VARIANT_COMPLIANCE
   #define SERIAL SerialUSB
@@ -56,7 +56,7 @@ Calibration data with 100mm wheel
   #define SYS_VOL   5
 #endif
 
-#define VERSION "FMT 2.18.1"
+#define VERSION "FMT 2.23.1"
 #define NOTE_STRING "PROTECTED"
 
 #define  SW1_RESET_PIN 5
@@ -64,7 +64,7 @@ Calibration data with 100mm wheel
 #define  DEBUG_PIN 7
 #define  REVOLUTION 4095
 #define  WRAP_ZONE 512
-#define  DISPLAY display_d
+#define  DISPLAY display
 #define  EEMAGIC 0x80010674
 #define  EEWRITE 0x01
 #define  EEREAD 0x00
@@ -80,7 +80,7 @@ Calibration data with 100mm wheel
 
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin) was 4
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT);
+Adafruit_SSD1306_D display(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 AMS_5600 ams5600;
 
