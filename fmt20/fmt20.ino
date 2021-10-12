@@ -58,8 +58,8 @@ Calibration data with 100mm wheel
 #define SYS_VOL 5
 #endif
 
-#define VERSION "FMT 2.26.1"
-#define NOTE_STRING "PROTECTED"
+#define VERSION "FMT 2.34.1"
+#define NOTE_STRING "MAIN"
 
 #define SW1_RESET_PIN 5
 #define SW2_UNITS_PIN 6

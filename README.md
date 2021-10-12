@@ -6,7 +6,7 @@ Measure 1.75mm 3D printing Filament.
 
 ## Design Targets
 
-* Accuracy: 1mm over 1M
+* Accuracy: 1mm over 1 meter
 * Cost: <$20
 * Easy to use. 
 
@@ -15,27 +15,14 @@ Measure 1.75mm 3D printing Filament.
 ![ECAD](https://github.com/bmoniey/FilamentMeasuringTool/blob/main/design/ecad/fmt.svg)
 
 
-
-Currently there are two branches, main and protected.
-
-* main: goes along with main Adrafruit_SSD1306 library.
-* protected: goes along with custom fork of Adafruit_SSD1306 Library. See details below.
-
 ## Library Dependencies
 
 Copy these libraries to your Arduino Libraries folder for the main or protected branch.
-
-### Branch: main
 
 * https://github.com/adafruit/Adafruit_SSD1306.git
 * https://github.com/adafruit/Adafruit-GFX-Library.git
 * https://github.com/Seeed-Studio/Seeed_Arduino_AS5600.git
 
-### Branch: protected
-
-* https://github.com/bmoniey/Adafruit_SSD1306/tree/protected
-* https://github.com/adafruit/Adafruit-GFX-Library.git
-* https://github.com/Seeed-Studio/Seeed_Arduino_AS5600.git
 
 ## Links
 
@@ -56,7 +43,7 @@ Copy these libraries to your Arduino Libraries folder for the main or protected 
 - 1 PCB 50x70 (ASIN B081Q5JZ43)
 - 2 header,male, horizontal,2.54mm 
 - 2 Push-button, momentary
-- x Dupont wire jumpers 20cm
+- 8 Dupont wire jumpers 20cm
 - 1 housing_top, 3d printed
 - 1 housing_bot, 3d printed
 - 1 housing_front, 3d printed
@@ -91,20 +78,25 @@ Steps:
 - Units Button: Stores the calibration and returns to Normal Mode
 
 ### Notes:
-1. Using while Cura is open is not recommended. The software tries to access the serial port of the arduino and funny things can start to happen. Simple close Cura when using the device.
+1. Using while Cura is open is not recommended. The software tries to access the serial port of the Arduino and funny things can start to happen. Simple close Cura when using the device.
 
 ## Version
 
-### 1.0.0
-- Failed attempt using an analog rotary encoder
+### 2.34.1 (10/11/2021)
+- This update is the result of a merge from the protected branch
+- Successful change to Adafruit_SSD1306 library for change from private to protected data. Thanks to the open source community and LadyAda for working on the pull request.
+- code clean-up using the clang-format tool in windows
+- inverted this revision list so latest changes go first!
 
-### 2.0.0
-- Initial Release of FMT20
+### 2.23.1 (10/3/2021)
+- working with Adafruit on change from private to protected
+- added back in the Adafruit_SSD1306_D.cpp,h files which implement the display(dfunct_t dfunct) method which is less complicated and will be able to benefit from any other modifications made to the base library. Hopefully the protected will become mainline which will allow this fork to die and no special library checkout will be needed.
 
-### 2.1.0 
-- store and read calibration from eeprom
-- added calibration mode
-- added updates to push-buttons to handle calibration mode
+### 2.18.1 (10/2/2021)
+- revision now in format major.git-revision.build numbers
+- added note to display to help with tracking branches
+- start-up delay from 1s to 2s to give user a change to read it!
+- added comments in the fmt.ino file to indicate what branch the project goes with
 
 ### 2.1.1
 - removed unused variables and comments
@@ -112,12 +104,13 @@ Steps:
 - improved handling of button presses
 - improved entry and return from calibration mode
 
-### 2.18.1
-- revision now in format major.git-revision.build numbers
-- added note to display to help with tracking branches
-- start-up delay from 1s to 2s to give user a change to read it!
-- added comments in the fmt.ino file to indicate what branch the project goes with
+### 2.1.0 
+- store and read calibration from eeprom
+- added calibration mode
+- added updates to push-buttons to handle calibration mode
 
-### 2.23.1
-- working with Adafruit on change from private to protected
-- added back in teh Adafruit_SSD1306_D.cpp,h files which implement the display(dfunct_t dfunct) method which is less complicated and will be able to benefit from any other modifications made to the base library. Hopefully the protected will become mainline which will allow this fork to die and no special library checkout will be needed.
+### 2.0.0 (9/25/2021)
+- Initial Release of FMT20
+
+### 1.0.0
+- Failed attempt using an analog rotary encoder
