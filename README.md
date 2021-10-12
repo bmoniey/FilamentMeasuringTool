@@ -14,7 +14,7 @@ Measure 1.75mm 3D printing Filament.
 
 ![ECAD](https://github.com/bmoniey/FilamentMeasuringTool/blob/main/design/ecad/fmt.svg)
 
-## Branches
+
 
 Currently there are two branches, main and protected.
 
@@ -111,3 +111,13 @@ Steps:
 - created defines for magic numbers
 - improved handling of button presses
 - improved entry and return from calibration mode
+
+### 2.18.1
+- revision now in format major.git-revision.build numbers
+- added note to display to help with tracking branches
+- start-up delay from 1s to 2s to give user a change to read it!
+- added comments in the fmt.ino file to indicate what branch the project goes with
+
+### 2.23.1
+- working with Adafruit on change from private to protected
+- added back in teh Adafruit_SSD1306_D.cpp,h files which implement the display(dfunct_t dfunct) method which is less complicated and will be able to benefit from any other modifications made to the base library. Hopefully the protected will become mainline which will allow this fork to die and no special library checkout will be needed.
