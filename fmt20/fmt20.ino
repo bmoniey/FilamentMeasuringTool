@@ -37,12 +37,13 @@ Calibration data with 100mm wheel
  Written by Brian Moran 9/12/2021
  */
 
-/*********************/
-/* Branch: Protected */
-/*********************/
-
 #include "Adafruit_SSD1306_D.h"
 #include "Arduino.h"
+
+#include "Arduino.h" 
+#include <SPI.h>
+#include <Wire.h>
+
 #include <AS5600.h>
 #include <Adafruit_GFX.h>
 #include <EEPROM.h>

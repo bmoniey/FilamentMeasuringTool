@@ -14,7 +14,7 @@ Measure 1.75mm 3D printing Filament.
 
 ![ECAD](https://github.com/bmoniey/FilamentMeasuringTool/blob/main/design/ecad/fmt.svg)
 
-## Branches [protected]
+
 
 Currently there are two branches, main and protected.
 
@@ -89,6 +89,9 @@ Steps:
 
 - Reset Button: Press to zero length.  
 - Units Button: Stores the calibration and returns to Normal Mode
+
+### Notes:
+1. Using while Cura is open is not recommended. The software tries to access the serial port of the arduino and funny things can start to happen. Simple close Cura when using the device.
 
 ## Version
 
