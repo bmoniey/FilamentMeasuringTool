@@ -98,13 +98,14 @@
   } ///< Wire, SPI or bitbang transfer end
 
 /**
- * 
+ *
  */
-Adafruit_SSD1306_D::Adafruit_SSD1306_D(uint8_t w, uint8_t h, TwoWire *twi=&Wire, int8_t rst_pin=-1,uint32_t clkDuring=400000UL, uint32_t clkAfter=100000UL) :
-      Adafruit_SSD1306(w, h, twi,rst_pin,clkDuring,clkAfter)
-{
-
-}
+Adafruit_SSD1306_D::Adafruit_SSD1306_D(uint8_t w, uint8_t h,
+                                       TwoWire *twi = &Wire,
+                                       int8_t rst_pin = -1,
+                                       uint32_t clkDuring = 400000UL,
+                                       uint32_t clkAfter = 100000UL)
+    : Adafruit_SSD1306(w, h, twi, rst_pin, clkDuring, clkAfter) {}
 
 /**
  * Direct copy from Adafruit_SSD1306
@@ -134,20 +135,17 @@ inline void Adafruit_SSD1306::SPIwrite(uint8_t d) {
   }
 }
 
-void Adafruit_SSD1306_D::display(void){
-  Adafruit_SSD1306::display();
-}
+void Adafruit_SSD1306_D::display(void) { Adafruit_SSD1306::display(); }
 
-void Adafruit_SSD1306_D::display(dfunc_t dfunc){
-    TRANSACTION_START
+void Adafruit_SSD1306_D::display(dfunc_t dfunc) {
+  TRANSACTION_START
   static const uint8_t PROGMEM dlist1[] = {
-    SSD1306_PAGEADDR,
-    0,                         // Page start address
-    0xFF,                      // Page end (not really, but works here)
-    SSD1306_COLUMNADDR,
-    0 };                       // Column start address
-  //ssd1306_commandList(dlist1, sizeof(dlist1));
-  //ssd1306_command1(WIDTH - 1); // Column end address
+      SSD1306_PAGEADDR,
+      0,                      // Page start address
+      0xFF,                   // Page end (not really, but works here)
+      SSD1306_COLUMNADDR, 0}; // Column start address
+  // ssd1306_commandList(dlist1, sizeof(dlist1));
+  // ssd1306_command1(WIDTH - 1); // Column end address
 
 #if defined(ESP8266)
   // ESP8266 needs a periodic yield() call to avoid watchdog reset.
@@ -159,13 +157,13 @@ void Adafruit_SSD1306_D::display(dfunc_t dfunc){
   yield();
 #endif
   uint16_t count = WIDTH * ((HEIGHT + 7) / 8);
-  uint8_t *ptr   = buffer;
-  if(wire) { // I2C
+  uint8_t *ptr = buffer;
+  if (wire) { // I2C
     wire->beginTransmission(i2caddr);
     WIRE_WRITE((uint8_t)0x40);
     uint8_t bytesOut = 1;
-    while(count--) {
-      if(bytesOut >= WIRE_MAX) {
+    while (count--) {
+      if (bytesOut >= WIRE_MAX) {
         wire->endTransmission();
         wire->beginTransmission(i2caddr);
         WIRE_WRITE((uint8_t)0x40);
@@ -173,12 +171,12 @@ void Adafruit_SSD1306_D::display(dfunc_t dfunc){
       }
       WIRE_WRITE(*ptr++);
       bytesOut++;
-      //every line give the dfunc a chance to run
-      if(dfunc !=NULL){
-        if(!(count % WIDTH)){
+      // every line give the dfunc a chance to run
+      if (dfunc != NULL) {
+        if (!(count % WIDTH)) {
           wire->endTransmission();
           TRANSACTION_END
-            dfunc();
+          dfunc();
           TRANSACTION_START
           wire->beginTransmission(i2caddr);
           WIRE_WRITE((uint8_t)0x40);
@@ -189,7 +187,8 @@ void Adafruit_SSD1306_D::display(dfunc_t dfunc){
     wire->endTransmission();
   } else { // SPI
     SSD1306_MODE_DATA
-    while(count--) SPIwrite(*ptr++);
+    while (count--)
+      SPIwrite(*ptr++);
   }
   TRANSACTION_END
- }
+}
